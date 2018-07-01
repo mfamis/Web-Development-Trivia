@@ -75,10 +75,10 @@ function displayQuestion(question)
     for (var answer = 0; answer < question.answers.length; answer++)
     {
         $("#answer-" + answer).html("");
-        for (var answerP = 0; answerP < question.answers[answer].length; answerP++)
+        for (var paragraph = 0; paragraph < question.answers[answer].length; paragraph++)
         {
             var answerParagraph = $("<p>");
-            answerParagraph.text(question.answers[answer][answerP]);
+            answerParagraph.text(question.answers[answer][paragraph]);
             $("#answer-" + answer).append(answerParagraph);
         }
     }
@@ -92,3 +92,5 @@ function answerClicked()
 }
 
 $(".answer").on("click", answerClicked);
+
+gameState.initialize();
