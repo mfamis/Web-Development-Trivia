@@ -10,3 +10,19 @@ body {
     background-color: #333333;
     color: antiquewhite;
 }
+
+#question {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.answer {
+    border: 2px dashed antiquewhite;
+    padding: 5px;
+    text-align: center;
+}
+
+#answer-row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
