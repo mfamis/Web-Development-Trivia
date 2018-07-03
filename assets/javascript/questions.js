@@ -170,4 +170,54 @@ var questions = [
         ],
         correctAnswer: 3,
     },
+    {
+        question: "What is CSS an abbreviation for?",
+        answers: [
+            ["Cumulative Style Sheets"],
+            ["Creative Style Selection"],
+            ["Cascade Style Sheets"],
+            ["Complementary Sorted Styles"],
+        ],
+        correctAnswer: 2,
+    },
+    {
+        question: "What is HTML an abbreviation for?",
+        answers: [
+            ["Hotmail"],
+            ["Human Translated Markup Language"],
+            ["Heuristic Transform Machine Language"],
+            ["Hypertext Markup Language"],
+        ],
+        correctAnswer: 3,
+    },
+    {
+        question: "What is this variable naming convention called: gameModelView",
+        answers: [
+            ["Camel Case"],
+            ["Lower Case-y Upper Case-y"],
+            ["JavaScript Style"],
+            ["Gangnam Style"],
+        ],
+        correctAnswer: 0,
+    },
+    {
+        question: "How do you stop the interval timer myInterval?",
+        answers: [
+            ["stopInterval(", "myInterval", ")"],
+            ["myInterval", ".stop()"],
+            ["clearInterval(", "myInterval", ")"],
+            ["deleteInterval(", "myInterval", ")"],
+        ],
+        correctAnswer: 2,
+    },
+    {
+        question: "Which would you choose to call a function once after 5 seconds passes?",
+        answers: [
+            ["setInterval(", "myFunction,", "5000)"],
+            ["setInterval(", "myFunction,", "5)"],
+            ["setTimeout(", "myFunction,", "5)"],
+            ["setTimeout(", "myFunction,", "5000)"],
+        ],
+        correctAnswer: 3,
+    },
 ]
