@@ -7,6 +7,7 @@ var difficultyTimings = [
 
 var gameState = {
     initialQuestion: true,
+    gameOver: false,
     timePerAnswer: 8,
     questions: [],
     currentQuestion: {},
@@ -15,16 +16,19 @@ var gameState = {
     initialize: function() { alert("initialize not implemented!"); },
     processAnswer: function(answer) { alert("processAnswer not implemented!"); },
     randomizeQuestions: function() { alert("randomizeQuestions not implemented!"); },
-    startGame: function() { alert("startGame not implemented"); },
+    nextQuestion: function() { alert("nextQuestion not implemented"); },
+    gameOverScreen: function() { alert("gameOverScreen not implemented"); },
 }
 
 // initialize / reset game state for new session
 gameState.initialize = function()
 {
     this.initialQuestion = true;
+    this.gameOver = false;
     this.questions = [];
     this.currentQuestion = initialQuestion;
     this.correctAnswers = 0;
+    this.wrongAnswers = 0;
     displayQuestion(this.currentQuestion);
 }
 
@@ -44,9 +48,26 @@ gameState.randomizeQuestions = function()
     }
 }
 
-gameState.startGame = function()
+gameState.nextQuestion = function()
 {
-    displayQuestion(this.currentQuestion);
+    if (this.questions.length > 0)
+    {
+        this.currentQuestion = this.questions.pop();
+        displayQuestion(this.currentQuestion);
+    }
+    else
+    {
+        this.gameOver = true;
+        this.gameOverScreen();
+    }
+}
+
+gameState.gameOverScreen = function()
+{
+    console.log("Game over, man! Game over!");
+    gameOver.answers[0][1] = this.correctAnswers;
+    gameOver.answers[1][1] = this.wrongAnswers;
+    displayQuestion(gameOver);
 }
 
 gameState.processAnswer = function(answer)
@@ -56,15 +77,30 @@ gameState.processAnswer = function(answer)
         this.timePerAnswer = difficultyTimings[answer];
         this.initialQuestion = false;
         this.randomizeQuestions();
-        this.currentQuestion = this.questions.pop();
-        this.startGame();
+        this.nextQuestion();
+    }
+    else if (this.gameOver)
+    {
+        if (answer == 3) // reset button clicked
+        {
+            this.initialize();
+        }
     }
     else
     {
-
+        if (this.currentQuestion.answer == answer)
+        {
+            this.correctAnswers += 1;
+        }
+        else
+        {
+            this.wrongAnswers += 1;
+        }
+        this.nextQuestion();
     }
 }
 
+// update game display with new question and answer choices
 function displayQuestion(question)
 {
     var questionParagraph = $("<p>");

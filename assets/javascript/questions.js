@@ -8,6 +8,16 @@ var initialQuestion = {
     ],
 }
 
+var gameOver = {
+    question: "Game over! Here are your stats!",
+    answers: [
+        ["Correct:", ""],
+        ["Wrong:", ""],
+        ["Thanks for playing!"],
+        ["Reset"],
+    ],
+};
+
 var questions = [
     {
         question: "Which of the following is an object?",
