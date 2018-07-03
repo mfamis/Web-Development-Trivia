@@ -13,6 +13,8 @@ var gameState = {
     currentQuestion: {},
     correctAnswers: 0,
     wrongAnswers: 0,
+    timerInterval: {},
+    currentTime: 0,
     initialize: function() { alert("initialize not implemented!"); },
     processAnswer: function(answer) { alert("processAnswer not implemented!"); },
     randomizeQuestions: function() { alert("randomizeQuestions not implemented!"); },
@@ -50,10 +52,13 @@ gameState.randomizeQuestions = function()
 
 gameState.nextQuestion = function()
 {
+    clearInterval(this.timerInterval);
     if (this.questions.length > 0)
     {
         this.currentQuestion = this.questions.pop();
         displayQuestion(this.currentQuestion);
+        this.currentTime = this.timePerAnswer;
+        this.timerInterval = setInterval(checkAndDisplayClock, 1000);
     }
     else
     {
@@ -117,6 +122,20 @@ function displayQuestion(question)
             answerParagraph.text(question.answers[answer][paragraph]);
             $("#answer-" + answer).append(answerParagraph);
         }
+    }
+}
+
+function checkAndDisplayClock()
+{
+    gameState.currentTime -= 1;
+    if (gameState.currentTime < 0)
+    {
+        gameState.wrongAnswers += 1;
+        gameState.nextQuestion();
+    }
+    else
+    {
+        $("#clock-paragraph").text("Time Left: " + gameState.currentTime);
     }
 }
 
