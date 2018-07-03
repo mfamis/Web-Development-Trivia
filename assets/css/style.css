@@ -11,6 +11,10 @@ body {
     color: antiquewhite;
 }
 
+#clock {
+    margin-top: 20px;
+}
+
 #question {
     text-align: center;
     margin-top: 10px;

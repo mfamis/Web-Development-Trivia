@@ -59,6 +59,7 @@ gameState.nextQuestion = function()
         displayQuestion(this.currentQuestion);
         this.currentTime = this.timePerAnswer;
         this.timerInterval = setInterval(checkAndDisplayClock, 1000);
+        checkAndDisplayClock();
     }
     else
     {
@@ -93,7 +94,7 @@ gameState.processAnswer = function(answer)
     }
     else
     {
-        if (this.currentQuestion.answer == answer)
+        if (this.currentQuestion.correctAnswer == answer)
         {
             this.correctAnswers += 1;
         }
@@ -127,7 +128,6 @@ function displayQuestion(question)
 
 function checkAndDisplayClock()
 {
-    gameState.currentTime -= 1;
     if (gameState.currentTime < 0)
     {
         gameState.wrongAnswers += 1;
@@ -137,6 +137,7 @@ function checkAndDisplayClock()
     {
         $("#clock-paragraph").text("Time Left: " + gameState.currentTime);
     }
+    gameState.currentTime -= 1;
 }
 
 function answerClicked()

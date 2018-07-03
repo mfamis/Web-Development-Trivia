@@ -37,6 +37,6 @@ var questions = [
             ["undefined"],
             ["not an array"],
         ],
-        correctAnswer: 1,
+        correctAnswer: 0,
     },
 ]
