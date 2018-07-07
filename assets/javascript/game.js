@@ -8,6 +8,7 @@ var difficultyTimings = [
 var gameState = {
     initialQuestion: true,
     gameOver: false,
+    displayingAnswers: false,
     timePerAnswer: 8,
     questions: [],
     currentQuestion: {},
@@ -27,6 +28,7 @@ gameState.initialize = function()
 {
     this.initialQuestion = true;
     this.gameOver = false;
+    this.displayingAnswers = false;
     this.questions = [];
     this.currentQuestion = initialQuestion;
     this.correctAnswers = 0;
@@ -52,12 +54,12 @@ gameState.randomizeQuestions = function()
 
 gameState.nextQuestion = function()
 {
-    clearInterval(this.timerInterval);
+    this.displayingAnswers = false;
+    this.currentTime = this.timePerAnswer;
     if (this.questions.length > 0)
     {
         this.currentQuestion = this.questions.pop();
         displayQuestion(this.currentQuestion);
-        this.currentTime = this.timePerAnswer;
         this.timerInterval = setInterval(checkAndDisplayClock, 1000);
         checkAndDisplayClock();
     }
@@ -76,6 +78,13 @@ gameState.gameOverScreen = function()
     displayQuestion(gameOver);
 }
 
+gameState.showAnswer = function(answer)
+{
+    this.displayingAnswers = true;
+    displayAnswer(this.currentQuestion, answer);
+    setTimeout(stopDisplayingAnswer, 3000);
+}
+
 gameState.processAnswer = function(answer)
 {
     if (this.initialQuestion)
@@ -92,8 +101,9 @@ gameState.processAnswer = function(answer)
             this.initialize();
         }
     }
-    else
+    else if (!this.displayingAnswers)
     {
+        clearInterval(this.timerInterval);
         if (this.currentQuestion.correctAnswer == answer)
         {
             this.correctAnswers += 1;
@@ -102,7 +112,7 @@ gameState.processAnswer = function(answer)
         {
             this.wrongAnswers += 1;
         }
-        this.nextQuestion();
+        this.showAnswer(answer);
     }
 }
 
@@ -130,14 +140,33 @@ function checkAndDisplayClock()
 {
     if (gameState.currentTime < 0)
     {
+        clearInterval(gameState.timerInterval);
         gameState.wrongAnswers += 1;
-        gameState.nextQuestion();
+        gameState.showAnswer(false);
     }
     else
     {
         $("#clock-paragraph").text("Time Left: " + gameState.currentTime);
+        gameState.currentTime -= 1;
     }
-    gameState.currentTime -= 1;
+}
+
+function displayAnswer(question, userAnswer)
+{
+    $("#answer-" + question.correctAnswer).css({"background-color": "green"});
+    if (userAnswer && userAnswer != question.correctAnswer)
+    {
+        $("#answer-" + userAnswer).css({ "background-color": "red"});
+    }
+}
+
+function stopDisplayingAnswer()
+{
+    for (var i = 0; i < 4; i++)
+    {
+        $("#answer-" + i).css({"background-color": "transparent"});
+    }
+    gameState.nextQuestion();
 }
 
 function answerClicked()
