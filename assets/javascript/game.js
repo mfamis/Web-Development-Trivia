@@ -6,6 +6,8 @@ var difficultyTimings = [
 ]
 
 var clockSound = new Audio("assets/sounds/tick.mp3");
+var errorSound = new Audio("assets/sounds/error.wav");
+var successSound = new Audio("assets/sounds/success.wav");
 
 // game state object for tracking time, correct/incorrect answers,
 // remaining questions, etc.
@@ -115,10 +117,12 @@ gameState.processAnswer = function(answer)
         if (this.currentQuestion.correctAnswer == answer)
         {
             this.correctAnswers += 1;
+            successSound.play();
         }
         else
         {
             this.wrongAnswers += 1;
+            errorSound.play();
         }
         this.showAnswer(answer);
     }
