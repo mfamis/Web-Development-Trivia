@@ -109,6 +109,15 @@ gameState.processAnswer = function(answer)
         this.nextQuestion();
     }
 
+    // if the game is over, only process input for the reset option
+    else if (this.gameOver)
+    {
+        if (answer == 3) // reset button clicked
+        {
+            this.initialize();
+        }
+    }
+
     // if game is still in progress and we aren't currently
     // displaying the answers, process the selected answer
     else if (!this.displayingAnswers)
@@ -127,15 +136,6 @@ gameState.processAnswer = function(answer)
             $("#clock-paragraph").text("Wrong! Better luck on the next one!");
         }
         this.showAnswer(answer);
-    }
-
-    // if the game is over, only process input for the reset option
-    else if (this.gameOver)
-    {
-        if (answer == 3) // reset button clicked
-        {
-            this.initialize();
-        }
     }
 }
 
