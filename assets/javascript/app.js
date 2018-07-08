@@ -118,11 +118,13 @@ gameState.processAnswer = function(answer)
         {
             this.correctAnswers += 1;
             successSound.play();
+            $("#clock-paragraph").text("Nice one! You got it right!");
         }
         else
         {
             this.wrongAnswers += 1;
             errorSound.play();
+            $("#clock-paragraph").text("Wrong! Better luck on the next one!");
         }
         this.showAnswer(answer);
     }
@@ -165,6 +167,7 @@ function checkAndDisplayClock()
     {
         clearInterval(gameState.timerInterval);
         gameState.wrongAnswers += 1;
+        $("#clock-paragraph").text("Time's up! Gotta be quick!");
         gameState.showAnswer(false);
     }
     else
