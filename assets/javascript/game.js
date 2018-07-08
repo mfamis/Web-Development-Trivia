@@ -5,6 +5,8 @@ var difficultyTimings = [
     4   // expert difficulty
 ]
 
+var clockSound = new Audio("assets/sounds/tick.mp3");
+
 // game state object for tracking time, correct/incorrect answers,
 // remaining questions, etc.
 var gameState = {
@@ -165,6 +167,10 @@ function checkAndDisplayClock()
     {
         $("#clock-paragraph").text("Time Left: " + gameState.currentTime);
         gameState.currentTime -= 1;
+        if (gameState.currentTime < 4)
+        {
+            clockSound.play();
+        }
     }
 }
 
