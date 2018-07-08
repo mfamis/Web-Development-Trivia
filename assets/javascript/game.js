@@ -5,6 +5,8 @@ var difficultyTimings = [
     4   // expert difficulty
 ]
 
+// game state object for tracking time, correct/incorrect answers,
+// remaining questions, etc.
 var gameState = {
     initialQuestion: true,
     gameOver: false,
@@ -52,6 +54,8 @@ gameState.randomizeQuestions = function()
     }
 }
 
+// starts the next question and the timer
+// if no questions remain, display gameover
 gameState.nextQuestion = function()
 {
     this.displayingAnswers = false;
@@ -70,6 +74,7 @@ gameState.nextQuestion = function()
     }
 }
 
+// display the game over screen, with stats as to how the user did
 gameState.gameOverScreen = function()
 {
     console.log("Game over, man! Game over!");
@@ -78,6 +83,8 @@ gameState.gameOverScreen = function()
     displayQuestion(gameOver);
 }
 
+// display the answer and any incorrect answer from the user
+// this lasts for three seconds and then the next question starts
 gameState.showAnswer = function(answer)
 {
     this.displayingAnswers = true;
@@ -85,8 +92,11 @@ gameState.showAnswer = function(answer)
     setTimeout(stopDisplayingAnswer, 3000);
 }
 
+// process user input and perform the correct action per game state
 gameState.processAnswer = function(answer)
 {
+    // if this is the start screen, process difficulty selection
+    // and start the game
     if (this.initialQuestion)
     {
         this.timePerAnswer = difficultyTimings[answer];
@@ -94,13 +104,9 @@ gameState.processAnswer = function(answer)
         this.randomizeQuestions();
         this.nextQuestion();
     }
-    else if (this.gameOver)
-    {
-        if (answer == 3) // reset button clicked
-        {
-            this.initialize();
-        }
-    }
+
+    // if game is still in progress and we aren't currently
+    // displaying the answers, process the selected answer
     else if (!this.displayingAnswers)
     {
         clearInterval(this.timerInterval);
@@ -113,6 +119,15 @@ gameState.processAnswer = function(answer)
             this.wrongAnswers += 1;
         }
         this.showAnswer(answer);
+    }
+
+    // if the game is over, only process input for the reset option
+    else if (this.gameOver)
+    {
+        if (answer == 3) // reset button clicked
+        {
+            this.initialize();
+        }
     }
 }
 
@@ -136,6 +151,8 @@ function displayQuestion(question)
     }
 }
 
+// checks the current time and updates the clock
+// if no time is remaining, show the answers
 function checkAndDisplayClock()
 {
     if (gameState.currentTime < 0)
@@ -151,6 +168,9 @@ function checkAndDisplayClock()
     }
 }
 
+// display the answer to the current question
+// correct answer is marked in green
+// if user answer supplied and is incorrect, mark it in red
 function displayAnswer(question, userAnswer)
 {
     $("#answer-" + question.correctAnswer).css({"background-color": "green"});
@@ -160,6 +180,7 @@ function displayAnswer(question, userAnswer)
     }
 }
 
+// reset the answer colors and start the next question
 function stopDisplayingAnswer()
 {
     for (var i = 0; i < 4; i++)
@@ -169,6 +190,8 @@ function stopDisplayingAnswer()
     gameState.nextQuestion();
 }
 
+// when the user selection one of the answer fields,
+// get the answer index and process it
 function answerClicked()
 {
     var answer = $(this).attr("id").split("-")[1];
@@ -176,6 +199,8 @@ function answerClicked()
     gameState.processAnswer(answer);
 }
 
+// bind the answer div click to the answerClick function above
 $(".answer").on("click", answerClicked);
 
+// initial the game
 gameState.initialize();
