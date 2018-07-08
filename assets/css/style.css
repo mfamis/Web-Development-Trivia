@@ -5,8 +5,11 @@ body {
 #game-play-section {
     margin-top: 60px;
     border-style: solid;
-    border-width: 20px 15px 25px 20px;
-    border-image: url("../images/editor-border-image.png") 40 stretch;
+    border-width: 20px 20px 25px 20px;
+    border-top-color: #3c3c3c;
+    border-left-color: #333333; 
+    border-right-color: #333333; 
+    border-bottom-color: #0078cf; 
     background-color: #333333;
     color: antiquewhite;
 }
